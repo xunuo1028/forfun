@@ -4,45 +4,65 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
-
     public float speed = 3f;
-    private Rigidbody rb;
+    private float g = 10f;
+    public float jumpSpeed = 12f;
+    private Vector3 moveV;
+    public bool isOnGround;
+
+
+
+    Ray groundCheck = new Ray();
+    RaycastHit rh;
+    Rigidbody rigidbody;
 
     // Use this for initialization
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
+        rigidbody = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Walk();
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            Jump();
+        }
+    }
+
+    void FixedUpdate()
+    {
+        IsOnGround();
     }
 
     private void Walk()
     {
-        Vector3 force = Vector3.forward * speed;
-        Debug.Log(force);
-        if (Input.GetKey(KeyCode.A))
+
+    }
+
+    public void IsOnGround()
+    {
+        if(Physics.Raycast(transform.position, Vector3.down, out rh, 0.2f))
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, -90f, 0));
-            transform.Translate(force * 0.8f);
+            Debug.DrawRay(transform.position, Vector3.down);
+            if(rh.collider.tag == "ground")
+            {
+                isOnGround = true;
+            }
+            else
+            {
+                isOnGround = false;
+            }
         }
-        else if (Input.GetKey(KeyCode.D))
+    }
+
+    public void Jump()
+    {
+        if(rigidbody != null || isOnGround == true)
         {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 90f, 0));
-            transform.Translate(force * 0.8f);
-        }
-        else if(Input.GetKey(KeyCode.W))
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-            transform.Translate(force * 0.8f);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-            transform.Translate(force * 0.8f);
+            Debug.Log("hahaha");
+            rigidbody.AddForce(Vector3.up * jumpSpeed);
         }
     }
 }

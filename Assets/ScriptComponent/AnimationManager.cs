@@ -2,49 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AnimationManager {
-
-    private static AnimationManager instance;
-
-    private static Queue<AnimationState> stateQueue;
-
-    public static AnimationManager Instance
-    {
-        get { return instance; }
-    }
-
-    public static Queue<AnimationState> StateQueue
-    {
-        get{ return stateQueue; }
-    }
-
-    public void Init()
-    {
-        if (instance == null)
-        {
-            instance = new AnimationManager();
-        }
-    }
-}
-
-public class AnimationState
+namespace SelfGame
 {
-    private string stateName;
-    private bool isRunning;
-
-    public string StateName
+    public class AnimationManager
     {
-        get
-        { 
-            return stateName;
-        }
-    }
-
-    public bool IsRunning
-    {
-        get
+        public enum ActionState
         {
-            return isRunning;
+            Idle = 0,
+            Walk,
+            Run,
+            Jump
+        }
+
+        private static Queue<ActionState> stateQueue;
+
+        public ActionState currentState;
+
+        public ActionState lastState;
+
+        public static Queue<ActionState> StateQueue
+        {
+            get { return stateQueue; }
+        }
+
+        public void Init(ActionState action = ActionState.Idle)
+        {
+            currentState = action;
+        }
+
+        public static void EnQueue()
+        {
+
+        }
+
+        public static void DeQueue()
+        {
+
         }
     }
 }
+
+
