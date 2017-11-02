@@ -21,6 +21,7 @@ public class Move : MonoBehaviour
     Ray groundCheck = new Ray();
     RaycastHit rh;
     Rigidbody rigidbody;
+    Vector3 baseDir = Vector3.forward;
 
     // Use this for initialization
     void Start()
@@ -57,18 +58,19 @@ public class Move : MonoBehaviour
         {
             if (isRun)
             {
-                transform.Translate(translation * speed * 2 * Time.deltaTime);
-                //animator.SetBool("Run", true);
-                //animator.SetBool("Walk", false);
+                transform.Translate(translation * speed * 2 * Time.deltaTime, Space.World);
+                animator.SetBool("Run", true);
+                animator.SetBool("Walk", false);
             }
             else
             {
-                transform.Translate(translation * speed * Time.deltaTime);
-                //animator.SetBool("Run", false);
-                //animator.SetBool("Walk", true);
+                transform.Translate(translation * speed * Time.deltaTime, Space.World);
+                animator.SetBool("Run", false);
+                animator.SetBool("Walk", true);
             }
-            //Debug.Log(translation.normalized);
             Vector3 nor = translation.normalized;
+            Vector3 angle = Quaternion.FromToRotation(baseDir, nor).eulerAngles;
+            transform.rotation = Quaternion.Euler(new Vector3(0, angle.y, 0));
         }
     }
 
