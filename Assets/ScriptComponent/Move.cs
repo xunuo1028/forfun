@@ -72,6 +72,11 @@ public class Move : MonoBehaviour
             Vector3 angle = Quaternion.FromToRotation(baseDir, nor).eulerAngles;
             transform.rotation = Quaternion.Euler(new Vector3(0, angle.y, 0));
         }
+        else
+        {
+            animator.SetBool("Run", false);
+            animator.SetBool("Walk", false);
+        }
     }
 
     public void IsOnGround()
