@@ -9,7 +9,7 @@ public class Move : MonoBehaviour
     public float jumpSpeed = 12f;
     private Vector3 moveV;
     public bool isOnGround;
-    private Animator animator;
+    private AnimationManager am;
 
 
     private Vector3 translation;
@@ -27,7 +27,7 @@ public class Move : MonoBehaviour
     void Start()
     {
         rigidbody = this.GetComponent<Rigidbody>();
-        animator = this.GetComponent<Animator>();
+        am = this.GetComponent<AnimationManager>();
     }
 
     // Update is called once per frame
@@ -59,14 +59,12 @@ public class Move : MonoBehaviour
             if (isRun)
             {
                 transform.Translate(translation * speed * 2 * Time.deltaTime, Space.World);
-                animator.SetBool("Run", true);
-                animator.SetBool("Walk", false);
+                am.RunAnimationBool("Run");
             }
             else
             {
                 transform.Translate(translation * speed * Time.deltaTime, Space.World);
-                animator.SetBool("Run", false);
-                animator.SetBool("Walk", true);
+                am.RunAnimationBool("Walk");
             }
             Vector3 nor = translation.normalized;
             Vector3 angle = Quaternion.FromToRotation(baseDir, nor).eulerAngles;
@@ -74,8 +72,7 @@ public class Move : MonoBehaviour
         }
         else
         {
-            animator.SetBool("Run", false);
-            animator.SetBool("Walk", false);
+            am.SetIdle();
         }
     }
 

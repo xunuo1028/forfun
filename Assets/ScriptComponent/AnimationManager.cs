@@ -2,44 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace SelfGame
+public class AnimationManager : MonoBehaviour
 {
-    public class AnimationManager
+    public string lastAnimationName = string.Empty;
+
+    private Animator ac;
+
+    void Start()
     {
-        public enum ActionState
+        ac = this.GetComponent<Animator>();
+    }
+    
+
+    public void RunAnimationBool(string name)
+    {
+        if(lastAnimationName != string.Empty)
         {
-            Idle = 0,
-            Walk,
-            Run,
-            Jump
+            ac.SetBool(lastAnimationName, false);
         }
 
-        private static Queue<ActionState> stateQueue;
+        ac.SetBool(name, true);
 
-        public ActionState currentState;
+        lastAnimationName = name;
+    }
 
-        public ActionState lastState;
-
-        public static Queue<ActionState> StateQueue
+    public void SetIdle()
+    {
+        if (lastAnimationName != string.Empty)
         {
-            get { return stateQueue; }
-        }
-
-        public void Init(ActionState action = ActionState.Idle)
-        {
-            currentState = action;
-        }
-
-        public static void EnQueue()
-        {
-
-        }
-
-        public static void DeQueue()
-        {
-
+            ac.SetBool(lastAnimationName, false);
         }
     }
+    
 }
 
 
